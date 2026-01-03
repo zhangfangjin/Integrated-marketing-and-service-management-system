@@ -1,173 +1,153 @@
-package org.example.rootmanage.contract.entity;
+package org.example.rootmanage.contract.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
-import org.example.rootmanage.common.BaseEntity;
-import lombok.EqualsAndHashCode;
-
 /**
- * 合同实体类
- * 用于存储合同的基本信息
+ * 合同创建/更新请求DTO
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "contract")
-public class Contract extends BaseEntity {
+public class ContractRequest {
 
     /**
      * 合同编号
      */
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String contractNumber;
 
     /**
      * 合同名称
      */
-    @Column(nullable = false)
+    @NotBlank
     private String contractName;
 
     /**
      * 客户名称
      */
-    @Column(nullable = true)
     private String customerName;
 
     /**
      * 销售机会
      */
-    @Column(nullable = true)
     private String salesOpportunity;
 
     /**
      * 签订日期
      */
-    @Column(nullable = true)
     private Date signingDate;
 
     /**
      * 排产日期
      */
-    @Column(nullable = true)
     private Date scheduleDate;
 
     /**
      * 交货日期
      */
-    @Column(nullable = true)
     private Date deliveryDate;
 
     /**
      * 货物到站
      */
-    @Column(nullable = true)
     private String deliveryStation;
 
     /**
      * 运费支付
      */
-    @Column(nullable = true)
     private String freightPayment;
 
     /**
      * 项目名称
      */
-    @Column(nullable = true)
     private String projectName;
 
     /**
      * 付款方式
      */
-    @Column(nullable = true, columnDefinition = "TEXT")
     private String paymentMethod;
 
     /**
      * 总价（元）
      */
-    @Column(nullable = true)
     private Double totalPrice;
 
     /**
      * 备注
      */
-    @Column(nullable = true, columnDefinition = "TEXT")
     private String contractRemark;
 
     /**
      * 订货单位
      */
-    @Column(nullable = true)
     private String orderingUnit;
 
     /**
      * 订货代表
      */
-    @Column(nullable = true)
     private String orderingRepresentative;
 
     /**
      * 订货电话
      */
-    @Column(nullable = true)
     private String orderingPhone;
 
     /**
      * 订货地址
      */
-    @Column(nullable = true)
     private String orderingAddress;
 
     /**
      * 订货邮编
      */
-    @Column(nullable = true)
     private String orderingPostcode;
 
     /**
      * 订货片区
      */
-    @Column(nullable = true)
     private String orderingArea;
 
     /**
      * 附件路径
      */
-    @Column(nullable = true)
     private String attachment;
 
     /**
-     * 外键关联用户表（负责人）
+     * 负责人ID
      */
-    @Column(nullable = true)
     private UUID managerId;
 
     /**
      * 经办部门
      */
-    @Column(nullable = true)
     private String handlerDepartment;
 
     /**
      * 经办人
      */
-    @Column(nullable = true)
     private String handlerName;
 
     /**
      * 经办日期
      */
-    @Column(nullable = true)
     private Date handleDate;
 
     /**
-     * 合同状态（待提交、审批中、已通过、已拒绝等）
+     * 合同细目列表
      */
-    @Column(nullable = false)
-    private String contractStatus = "待提交";
+    private List<ContractDetailRequest> details;
+
+    /**
+     * 付款阶段列表
+     */
+    private List<ContractPaymentStageRequest> paymentStages;
+
+    /**
+     * 占比划分列表
+     */
+    private List<ContractProportionRequest> proportions;
 }
+
