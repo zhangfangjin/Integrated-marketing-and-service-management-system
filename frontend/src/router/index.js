@@ -104,6 +104,12 @@ const routes = [
         path: 'mall/orders',
         name: 'OrderManagement',
         component: () => import('@/views/mall/OrderManagement.vue')
+      },
+      // 基本信息管理相关页面
+      {
+        path: 'basicinfo/customers',
+        name: 'CustomerManagement',
+        component: () => import('@/views/basicinfo/CustomerManagement.vue')
       }
     ]
   }

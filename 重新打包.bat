@@ -42,7 +42,7 @@ if %errorlevel% == 0 (
     echo 如果仍然提示文件被占用，请：
     echo 1. 关闭所有 Java 应用程序
     echo 2. 关闭 IDE（如果打开了项目）
-    echo 3. 重新运行此脚本
+    echo 3. 重新运行此脚本image.png
     echo.
 )
 

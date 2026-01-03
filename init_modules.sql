@@ -547,6 +547,98 @@ INSERT INTO module (
     NOW()
 );
 
+-- 6. 基本信息管理（一级菜单，父节点，展开状态）
+SET @basicinfo_management_id = UNHEX(REPLACE(UUID(), '-', ''));
+INSERT INTO module (
+    id, zh_name, en_name, `level`, order_no, path, icon, group_code, permission_key, 
+    parent_id, parent_node, expanded, visible, create_time, update_time
+) VALUES (
+    @basicinfo_management_id,
+    '基本信息管理',
+    'basicinfo_management',
+    1,
+    6000,
+    NULL,
+    'basicinfo-icon',
+    NULL,
+    '/basicinfo',
+    NULL,
+    1,  -- 是父节点
+    1,  -- 展开
+    1,  -- 可见
+    NOW(),
+    NOW()
+);
+
+-- 6.1 客户管理（二级菜单）
+SET @customer_management_id = UNHEX(REPLACE(UUID(), '-', ''));
+INSERT INTO module (
+    id, zh_name, en_name, `level`, order_no, path, icon, group_code, permission_key, 
+    parent_id, parent_node, expanded, visible, create_time, update_time
+) VALUES (
+    @customer_management_id,
+    '客户管理',
+    'customer_management',
+    2,
+    6010,
+    '/basicinfo/customers',
+    NULL,
+    NULL,
+    '/basicinfo/customers',
+    @basicinfo_management_id,
+    0,
+    0,
+    1,
+    NOW(),
+    NOW()
+);
+
+-- 6.2 团队信息管理（二级菜单）
+SET @team_management_id = UNHEX(REPLACE(UUID(), '-', ''));
+INSERT INTO module (
+    id, zh_name, en_name, `level`, order_no, path, icon, group_code, permission_key, 
+    parent_id, parent_node, expanded, visible, create_time, update_time
+) VALUES (
+    @team_management_id,
+    '团队信息管理',
+    'team_management',
+    2,
+    6020,
+    '/basicinfo/teams',
+    NULL,
+    NULL,
+    '/basicinfo/teams',
+    @basicinfo_management_id,
+    0,
+    0,
+    1,
+    NOW(),
+    NOW()
+);
+
+-- 6.3 产品管理（二级菜单）
+SET @product_info_management_id = UNHEX(REPLACE(UUID(), '-', ''));
+INSERT INTO module (
+    id, zh_name, en_name, `level`, order_no, path, icon, group_code, permission_key, 
+    parent_id, parent_node, expanded, visible, create_time, update_time
+) VALUES (
+    @product_info_management_id,
+    '产品管理',
+    'product_info_management',
+    2,
+    6030,
+    '/basicinfo/products',
+    NULL,
+    NULL,
+    '/basicinfo/products',
+    @basicinfo_management_id,
+    0,
+    0,
+    1,
+    NOW(),
+    NOW()
+);
+
 -- ============================================
 -- 验证数据
 -- ============================================
