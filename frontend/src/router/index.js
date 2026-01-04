@@ -110,6 +110,28 @@ const routes = [
         path: 'basicinfo/customers',
         name: 'CustomerManagement',
         component: () => import('@/views/basicinfo/CustomerManagement.vue')
+      },
+      // 价格本管理
+      {
+        path: 'pricebook',
+        name: 'PriceBookManagement',
+        component: () => import('@/views/pricebook/PriceBookManagement.vue')
+      },
+      // 应收账管理相关页面
+      {
+        path: 'receivable/plan',
+        name: 'ReceivablePlan',
+        component: () => import('@/views/receivable/ReceivablePlan.vue')
+      },
+      {
+        path: 'receivable/entry',
+        name: 'ReceivableEntry',
+        component: () => import('@/views/receivable/ReceivableEntry.vue')
+      },
+      {
+        path: 'receivable/query',
+        name: 'ReceivableQuery',
+        component: () => import('@/views/receivable/ReceivableQuery.vue')
       }
     ]
   }

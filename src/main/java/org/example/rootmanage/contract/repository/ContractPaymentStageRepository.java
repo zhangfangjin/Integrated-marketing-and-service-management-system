@@ -28,5 +28,20 @@ public interface ContractPaymentStageRepository extends JpaRepository<ContractPa
     @Transactional
     @Query("DELETE FROM ContractPaymentStage s WHERE s.contract.id = :contractId")
     void deleteByContractId(@Param("contractId") UUID contractId);
+
+    /**
+     * 根据合同编号查找所有付款阶段
+     */
+    @Query("SELECT s FROM ContractPaymentStage s WHERE s.contract.contractNumber = :contractNumber")
+    List<ContractPaymentStage> findByContractNumber(@Param("contractNumber") String contractNumber);
+
+    /**
+     * 根据关键词搜索付款阶段（合同编号、合同名称、客户名称）
+     */
+    @Query("SELECT s FROM ContractPaymentStage s WHERE " +
+            "s.contract.contractNumber LIKE %:keyword% OR " +
+            "s.contract.contractName LIKE %:keyword% OR " +
+            "s.contract.customerName LIKE %:keyword%")
+    List<ContractPaymentStage> searchByKeyword(@Param("keyword") String keyword);
 }
 

@@ -426,7 +426,9 @@ public class ContractService {
             stage.setAmountPayable(stageRequest.getAmountPayable());
             stage.setAmountPaid(stageRequest.getAmountPaid());
             stage.setPaymentStageName(stageRequest.getPaymentStageName());
+            stage.setDueDate(stageRequest.getDueDate());
             stage.setPaymentDate(stageRequest.getPaymentDate());
+            stage.setResponsiblePerson(stageRequest.getResponsiblePerson());
             stage.setRemark(stageRequest.getRemark());
             contractPaymentStageRepository.save(stage);
         }

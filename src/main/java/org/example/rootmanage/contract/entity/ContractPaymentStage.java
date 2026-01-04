@@ -54,10 +54,22 @@ public class ContractPaymentStage extends BaseEntity {
     private String paymentStageName;
 
     /**
+     * 应付时间
+     */
+    @Column(nullable = true)
+    private Date dueDate;
+
+    /**
      * 付款日期
      */
     @Column(nullable = true)
     private Date paymentDate;
+
+    /**
+     * 责任人
+     */
+    @Column(nullable = true)
+    private String responsiblePerson;
 
     /**
      * 备注

@@ -1,15 +1,15 @@
-package org.example.rootmanage.contract.dto;
+package org.example.rootmanage.receivable.dto;
 
 import lombok.Data;
 
 import java.sql.Date;
 
 /**
- * 合同付款阶段请求DTO
+ * 应收账更新请求DTO
+ * 用于应收账录入和修改
  */
 @Data
-public class ContractPaymentStageRequest {
-
+public class AccountsReceivableUpdateRequest {
     /**
      * 付款阶段
      */
