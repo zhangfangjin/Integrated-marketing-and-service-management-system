@@ -38,3 +38,15 @@ public interface AnalysisModelPointRepository extends JpaRepository<AnalysisMode
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

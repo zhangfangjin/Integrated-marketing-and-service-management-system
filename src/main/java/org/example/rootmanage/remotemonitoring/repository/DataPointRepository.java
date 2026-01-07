@@ -66,3 +66,15 @@ public interface DataPointRepository extends JpaRepository<DataPoint, UUID> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

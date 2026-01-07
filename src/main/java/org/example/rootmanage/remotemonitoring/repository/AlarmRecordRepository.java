@@ -66,3 +66,15 @@ public interface AlarmRecordRepository extends JpaRepository<AlarmRecord, UUID> 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

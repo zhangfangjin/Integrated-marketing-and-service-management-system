@@ -61,3 +61,15 @@ public interface AlarmConfigRepository extends JpaRepository<AlarmConfig, UUID> 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

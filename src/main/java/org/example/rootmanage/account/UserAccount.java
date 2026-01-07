@@ -9,16 +9,14 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.example.rootmanage.common.BaseEntity;
 import org.example.rootmanage.option.OptionItem;
 import org.example.rootmanage.role.Role;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "user_account")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

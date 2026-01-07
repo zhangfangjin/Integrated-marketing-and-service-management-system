@@ -132,6 +132,68 @@ const routes = [
         path: 'receivable/query',
         name: 'ReceivableQuery',
         component: () => import('@/views/receivable/ReceivableQuery.vue')
+      },
+      // 合同管理相关页面
+      {
+        path: 'contracts',
+        name: 'ContractList',
+        component: () => import('@/views/contract/ContractList.vue')
+      },
+      {
+        path: 'contracts/new',
+        name: 'ContractCreate',
+        component: () => import('@/views/contract/ContractForm.vue')
+      },
+      {
+        path: 'contracts/:id/edit',
+        name: 'ContractEdit',
+        component: () => import('@/views/contract/ContractForm.vue')
+      },
+      {
+        path: 'contracts/:id/approve',
+        name: 'ApproveConfig',
+        component: () => import('@/views/contract/ApproveConfig.vue')
+      },
+      {
+        path: 'contracts/:id/status',
+        name: 'FlowStatus',
+        component: () => import('@/views/contract/FlowStatus.vue')
+      },
+      {
+        path: 'contracts/execution-progress',
+        name: 'ExecutionProgress',
+        component: () => import('@/views/contract/ExecutionProgress.vue')
+      },
+      // 售后服务管理相关页面
+      {
+        path: 'aftersales/orders',
+        name: 'AfterSalesList',
+        component: () => import('@/views/aftersales/AfterSalesList.vue')
+      },
+      {
+        path: 'aftersales/returned-pumps',
+        name: 'ReturnedPumps',
+        component: () => import('@/views/aftersales/ReturnedPumps.vue')
+      },
+      {
+        path: 'aftersales/maintenance-progress',
+        name: 'MaintenanceProgress',
+        component: () => import('@/views/aftersales/MaintenanceProgress.vue')
+      },
+      {
+        path: 'aftersales/devices',
+        name: 'DeviceManagement',
+        component: () => import('@/views/aftersales/DeviceManagement.vue')
+      },
+      {
+        path: 'aftersales/maintenance-plans',
+        name: 'MaintenancePlans',
+        component: () => import('@/views/aftersales/MaintenancePlans.vue')
+      },
+      {
+        path: 'aftersales/experience',
+        name: 'AfterSalesExperience',
+        component: () => import('@/views/aftersales/AfterSalesExperience.vue')
       }
     ]
   }

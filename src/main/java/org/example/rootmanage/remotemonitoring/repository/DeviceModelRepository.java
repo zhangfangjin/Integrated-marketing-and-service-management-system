@@ -45,3 +45,15 @@ public interface DeviceModelRepository extends JpaRepository<DeviceModel, UUID> 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

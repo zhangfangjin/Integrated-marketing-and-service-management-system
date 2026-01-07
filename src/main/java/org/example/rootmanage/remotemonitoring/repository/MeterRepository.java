@@ -56,3 +56,15 @@ public interface MeterRepository extends JpaRepository<Meter, UUID> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -57,3 +57,15 @@ public interface DeviceRunningDataRepository extends JpaRepository<DeviceRunning
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -32,3 +32,15 @@ public interface ReplacementPartItemRepository extends JpaRepository<Replacement
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

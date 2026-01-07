@@ -87,6 +87,14 @@ public class ContractController {
     }
 
     /**
+     * 审批合同
+     */
+    @PostMapping("/{id}/approve")
+    public void approve(@PathVariable UUID id, @RequestParam boolean approved, @RequestParam(required = false) String remark) {
+        contractService.approve(id, approved, remark);
+    }
+
+    /**
      * 查看流程审批状态
      */
     @GetMapping("/{id}/workflow-status")

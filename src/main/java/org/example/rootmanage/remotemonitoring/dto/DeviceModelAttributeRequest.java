@@ -57,3 +57,15 @@ public class DeviceModelAttributeRequest {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

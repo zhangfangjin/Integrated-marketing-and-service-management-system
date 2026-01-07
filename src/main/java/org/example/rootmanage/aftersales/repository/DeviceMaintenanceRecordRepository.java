@@ -29,3 +29,15 @@ public interface DeviceMaintenanceRecordRepository extends JpaRepository<DeviceM
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -28,3 +28,15 @@ public interface MeterAttributeRepository extends JpaRepository<MeterAttribute, 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

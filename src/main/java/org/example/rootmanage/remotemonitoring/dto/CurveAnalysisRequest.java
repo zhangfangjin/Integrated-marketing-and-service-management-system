@@ -48,3 +48,15 @@ public class CurveAnalysisRequest {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -95,3 +95,15 @@ public class DeviceMaintenanceRecord extends BaseEntity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

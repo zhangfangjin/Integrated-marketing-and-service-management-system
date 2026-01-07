@@ -28,3 +28,15 @@ public interface DeviceModelAttributeRepository extends JpaRepository<DeviceMode
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

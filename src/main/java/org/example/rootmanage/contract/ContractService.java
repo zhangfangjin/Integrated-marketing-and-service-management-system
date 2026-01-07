@@ -29,6 +29,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.example.rootmanage.account.UserAccount;
+import org.example.rootmanage.account.UserAccountRepository;
+import org.example.rootmanage.auth.TokenService;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * 合同服务类
  * 提供合同管理的业务逻辑
@@ -44,24 +49,42 @@ public class ContractService {
     private final ContractApprovalNodeRepository contractApprovalNodeRepository;
     private final ContractWorkflowStatusRepository contractWorkflowStatusRepository;
     private final ContractExecutionProgressRepository contractExecutionProgressRepository;
+    private final UserAccountRepository userAccountRepository;
+    private final TokenService tokenService;
+    private final HttpServletRequest httpServletRequest;
 
     /**
-     * 查询所有合同列表
+     * 获取当前登录用户
      */
-    @Transactional(readOnly = true)
-    public List<Contract> findAll() {
-        return contractRepository.findAll();
+    private UserAccount getCurrentUser() {
+        String authHeader = httpServletRequest.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            return tokenService.getUserByToken(token);
+        }
+        throw new IllegalStateException("用户未登录");
     }
 
     /**
-     * 根据关键词搜索合同
+     * 查询所有合同列表（仅显示自己负责的合同）
+     */
+    @Transactional(readOnly = true)
+    public List<Contract> findAll() {
+        UserAccount currentUser = getCurrentUser();
+        // 如果是管理员，可能需要看到所有？题目要求"只能看到自己保存过的合同"，严格执行
+        return contractRepository.findByManagerId(currentUser.getId());
+    }
+
+    /**
+     * 根据关键词搜索合同（仅限自己负责的合同）
      */
     @Transactional(readOnly = true)
     public List<Contract> searchContracts(String keyword) {
+        UserAccount currentUser = getCurrentUser();
         if (keyword != null && !keyword.trim().isEmpty()) {
-            return contractRepository.searchContracts(keyword.trim());
+            return contractRepository.searchContractsByManagerId(keyword.trim(), currentUser.getId());
         }
-        return contractRepository.findAll();
+        return contractRepository.findByManagerId(currentUser.getId());
     }
 
     /**
@@ -277,6 +300,69 @@ public class ContractService {
         }
 
         return contract;
+    }
+
+    /**
+     * 审批合同
+     * @param contractId 合同ID
+     * @param approved 是否通过
+     * @param remark 审批意见
+     */
+    @Transactional
+    public void approve(UUID contractId, boolean approved, String remark) {
+        UserAccount currentUser = getCurrentUser();
+        Contract contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new IllegalArgumentException("合同不存在"));
+
+        // 获取合同提交人（负责人）
+        if (contract.getManagerId() == null) {
+            throw new IllegalStateException("合同缺少负责人信息，无法验证片区权限");
+        }
+        UserAccount submitter = userAccountRepository.findById(contract.getManagerId())
+                .orElseThrow(() -> new IllegalArgumentException("合同负责人不存在"));
+
+        // 验证片区权限：当前审批人必须与合同提交人在同一片区
+        if (currentUser.getRegion() == null || submitter.getRegion() == null ||
+            !currentUser.getRegion().getId().equals(submitter.getRegion().getId())) {
+            throw new IllegalStateException("您无权审批该合同（只能审批本片区人员提交的合同）");
+        }
+
+        // 获取当前用户待处理的审批节点状态
+        // 查找当前用户在该合同中状态为"未查看"或"审批中"的节点
+        List<ContractWorkflowStatus> pendingStatuses = contractWorkflowStatusRepository
+                .findByContractIdOrderByCreateTimeAsc(contractId).stream()
+                .filter(s -> s.getOperatorId() != null && 
+                             s.getOperatorId().equals(currentUser.getId()) &&
+                             ("未查看".equals(s.getStatus()) || "审批中".equals(s.getStatus())))
+                .toList();
+
+        if (pendingStatuses.isEmpty()) {
+            throw new IllegalStateException("您当前没有待处理的审批任务");
+        }
+
+        // 处理审批逻辑
+        ContractWorkflowStatus currentStatus = pendingStatuses.get(0);
+        currentStatus.setStatus(approved ? "已通过" : "已拒绝");
+        currentStatus.setRemark(remark);
+        currentStatus.setOperationTime(LocalDateTime.now());
+        contractWorkflowStatusRepository.save(currentStatus);
+
+        if (!approved) {
+            // 如果拒绝，合同状态直接变为已拒绝
+            contract.setContractStatus("已拒绝");
+        } else {
+            // 如果通过，检查是否所有节点都已通过
+            // 这里简化逻辑：检查是否还有未处理的节点。实际可能需要按顺序激活下一个节点。
+            // 简单实现：如果所有节点都非"未查看"/"审批中"，则合同通过
+            boolean allApproved = contractWorkflowStatusRepository
+                    .findByContractIdOrderByCreateTimeAsc(contractId).stream()
+                    .noneMatch(s -> "未查看".equals(s.getStatus()) || "审批中".equals(s.getStatus()));
+            
+            if (allApproved) {
+                contract.setContractStatus("已通过");
+            }
+        }
+        contractRepository.save(contract);
     }
 
     /**

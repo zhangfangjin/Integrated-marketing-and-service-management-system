@@ -33,3 +33,15 @@ public interface MeterMeasurementRepository extends JpaRepository<MeterMeasureme
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
